@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import sys
 import rospy
@@ -55,37 +55,37 @@ class TestMapStore(unittest.TestCase):
         map_pub = rospy.Publisher('/map', OccupancyGrid, queue_size=5)
         test_map_sub = rospy.Subscriber('/test_map', OccupancyGrid, self.on_map)
         dynamic_map = rospy.Service('dynamic_map', GetMap, lambda x: GetMapResponse(map=test_map_2))
-        print "Wait for /list_maps"
+        print ("Wait for /list_maps")
         rospy.wait_for_service("/list_maps")
         list_maps = rospy.ServiceProxy('/list_maps', ListMaps)
-        print "Wait for /name_latest_map"
+        print ("Wait for /name_latest_map")
         rospy.wait_for_service("/save_map")
         name_latest_map = rospy.ServiceProxy('/save_map', SaveMap)
-        print "Wait for /delete_map"
+        print ("Wait for /delete_map")
         rospy.wait_for_service("/delete_map")
         delete_map = rospy.ServiceProxy('/delete_map', DeleteMap)
-        print "Wait for /rename_map"
+        print ("Wait for /rename_map")
         rospy.wait_for_service("/rename_map")
         rename_map = rospy.ServiceProxy('/rename_map', RenameMap)
-        print "Wait for /publish_map"
+        print ("Wait for /publish_map")
         rospy.wait_for_service("/publish_map")
         publish_map = rospy.ServiceProxy('/publish_map', PublishMap)
-        print "Wait for /test_dynamic_map"
+        print ("Wait for /test_dynamic_map")
         rospy.wait_for_service("/test_dynamic_map")
         test_dynamic_map = rospy.ServiceProxy('/test_dynamic_map', GetMap)
 
 
-        print "Wait 1 second for everything to start up"
+        print ("Wait 1 second for everything to start up")
         rospy.sleep(1.0)
 
         #Get the initial list of all maps
         initial_map_list = []
         for m in list_maps().map_list:
             initial_map_list.append(m.map_id)
-        print "Initial maps:", initial_map_list
+        print ("Initial maps:", initial_map_list)
 
         #Write out map 1
-        print "Sending map 1"
+        print ("Sending map 1")
         map_pub.publish(test_map_1)
         rospy.sleep(5.0)
 
@@ -95,7 +95,7 @@ class TestMapStore(unittest.TestCase):
             if not i.map_id in initial_map_list:
                 self.assertEquals(map_id_1, None, "Two or more maps from /map topic")
                 map_id_1 = i.map_id
-        print "First map is:", map_id_1
+        print ("First map is:", map_id_1)
         self.assertNotEquals(map_id_1, None, "Map was not loaded from the /map topic")
         
         #Save the second map
@@ -111,11 +111,11 @@ class TestMapStore(unittest.TestCase):
                 self.assertEquals(i.name, saved_map_name, \
                                       "Saved map has the wrong name: %s instead of %s"%(i.name, saved_map_name))
                 map_id_2 = i.map_id
-        print "Second map is:", map_id_2
+        print ("Second map is:", map_id_2)
         self.assertNotEquals(map_id_2, None, "Map was not loaded from the dynamic_map")
         
         #Re-name the first map
-        print "Renaming first map"
+        print ("Renaming first map")
         topic_map_name = "test_map_msg"
         rename_map(map_id=map_id_1, new_name=topic_map_name)
         rospy.sleep(1.0)
@@ -128,7 +128,7 @@ class TestMapStore(unittest.TestCase):
         
         
         #Display both maps
-        print "Displaying first map"
+        print ("Displaying first map")
         self.wait_for_map = True
         self.check_map = test_map_1
         publish_map(map_id_1)
@@ -136,7 +136,7 @@ class TestMapStore(unittest.TestCase):
             rospy.sleep(1.0)
         self.assertEquals(self.compare_maps(test_dynamic_map().map, test_map_1), True, "Test map 1 is bad")
         
-        print "Displaying second map"
+        print ("Displaying second map")
         self.wait_for_map = True
         self.check_map = test_map_2
         publish_map(map_id_2)
@@ -145,13 +145,13 @@ class TestMapStore(unittest.TestCase):
         self.assertEquals(self.compare_maps(test_dynamic_map().map, test_map_2), True, "Test map 2 is bad")
         
         #Delete both maps
-        print "Deleting both maps"
+        print ("Deleting both maps")
         delete_map(map_id_1)
         delete_map(map_id_2)
         rospy.sleep(1.0)
         
         #Check that they are gone
-        print "Ensuring that the maps are gone"
+        print ("Ensuring that the maps are gone")
         for i in list_maps().map_list:
             self.assertNotEquals(i.map_id, map_id_1, "The /map topic map could not be deleted")
             self.assertNotEquals(i.map_id, map_id_2, "The dynamic_map map could not be deleted")
@@ -159,7 +159,7 @@ class TestMapStore(unittest.TestCase):
         
         #rospy.spin()
         rospy.sleep(1.0)
-        print "Finished"
+        print ("Finished")
 
 
 

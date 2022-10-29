@@ -322,9 +322,9 @@ int main (int argc, char** argv)
 //    if (lookupMap(last_map, map))
 //    {
 //      try {
-//	map_publisher.publish(map);
+//    map_publisher.publish(map);
 //      } catch(...) {
-//	ROS_ERROR("Error publishing map");
+//    ROS_ERROR("Error publishing map");
 //      }
 //    }
 //    else

@@ -145,7 +145,7 @@ bool publishMap(map_store::PublishMap::Request &request,
 }
 
 bool deleteMap(map_store::DeleteMap::Request &request,
-	       map_store::DeleteMap::Response &response)
+           map_store::DeleteMap::Response &response)
 {
   ros::NodeHandle nh;
   std::string param;
@@ -172,7 +172,7 @@ bool renameMap(map_store::RenameMap::Request &request,
 
 
 bool dynamicMap(nav_msgs::GetMap::Request &request,
-		nav_msgs::GetMap::Response &response) {
+        nav_msgs::GetMap::Response &response) {
   if (last_map == "") {
     return false;
   }
@@ -209,9 +209,9 @@ int main (int argc, char** argv)
     if (lookupMap(last_map, map))
     {
       try {
-	map_publisher.publish(map);
+    map_publisher.publish(map);
       } catch(...) {
-	rospy.logerr("Error publishing map");
+    rospy.logerr("Error publishing map");
       }
     }
     else

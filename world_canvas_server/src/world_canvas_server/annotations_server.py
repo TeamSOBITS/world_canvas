@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Software License Agreement (BSD License)
 #
 # Copyright (c) 2014, Yujin Robot
@@ -37,10 +37,11 @@ import roslib.message
 import rospy
 import unique_id
 
-import warehouse_ros as wr
+# import warehouse_ros as wr
 
-from map_manager import *
-from yaml_database import *
+from .map_manager import *
+from .yaml_database import *
+from .message_collection import *
 
 from world_canvas_msgs.msg import *
 from world_canvas_msgs.srv import *
@@ -58,15 +59,15 @@ class AnnotationsServer:
         # more Annotation messages, the first containing the an id and a serialized representation
         # of a message of type annotation.type (data field)
         self.world_collection = \
-            wr.MessageCollection("world_canvas", "worlds", WorldCanvas)
+            MessageCollection("world_canvas", "worlds", WorldCanvas)
         self.world_collection.ensure_index("id", unique=True)
 
         self.anns_collection = \
-            wr.MessageCollection("world_canvas", "annotations", Annotation)
+            MessageCollection("world_canvas", "annotations", Annotation)
         self.anns_collection.ensure_index("id", unique=True)
 
         self.data_collection = \
-            wr.MessageCollection("world_canvas", "annotations_data", AnnotationData)
+            MessageCollection("world_canvas", "annotations_data", AnnotationData)
         self.data_collection.ensure_index("id", unique=True)
         
         # Set up services
@@ -307,7 +308,7 @@ class AnnotationsServer:
         '''
         response = SaveAnnotationsDataResponse()
 
-        print request.annotations
+        print (request.annotations)
         for annotation, data in zip(request.annotations, request.data):
             
             # Compose metadata: mandatory fields

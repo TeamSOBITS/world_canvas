@@ -69,7 +69,7 @@ void onMapReceived(const nav_msgs::OccupancyGrid::ConstPtr& map_msg)
   std::string uuid_string = uuidGenerate();
   mr::Metadata metadata
     = mr::Metadata("uuid", uuid_string,
-		   "session_id", session_id);
+           "session_id", session_id);
 
   map_collection->insert(*map_msg, metadata);
 
@@ -89,7 +89,7 @@ bool saveMap(map_store::SaveMap::Request &req,
   mr::Metadata metadata
     = mr::Metadata("uuid", uuid_string,
                    "session_id", session_id,
-		   "name", req.map_name);
+           "name", req.map_name);
 
   ROS_DEBUG("Save map %d by %d @ %f as %s", srv.response.map.info.width, 
             srv.response.map.info.height, srv.response.map.info.resolution, req.map_name.c_str());
