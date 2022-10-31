@@ -41,7 +41,8 @@ import re
 import yaml
 import uuid
 import unique_id
-import warehouse_ros as wr
+# import warehouse_ros as wr
+from .message_collection import *
 
 from world_canvas_msgs.msg import *
 from world_canvas_msgs.srv import *

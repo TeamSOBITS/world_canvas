@@ -64,7 +64,8 @@
 import rospy
 import unique_id
 
-import warehouse_ros as wr
+# import warehouse_ros as wr
+from .message_collection import *
 
 from nav_msgs.msg import *
 from nav_msgs.srv import *
